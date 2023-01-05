@@ -1,47 +1,48 @@
 #include <stdio.h>
+#include <conio.h>
 #include <stdlib.h>
-#define max 30
-int main()
+void main()
 {
-    int i, j, n, t, pr[max], bt[max], wt[max], tat[max], pos;
-    float awt = 0.0f, atat = 0.0f;
     system("cls");
-    printf("Enter the number of process: ");
+    int i, j, n, wt[20], bt[20], tat[20], pr[20];
+    float awt = 0.0, att = 0.0;
+    printf("\n\t Enter the number of process: ");
     scanf("%d", &n);
-
-    printf("\nEnter the burst time of the processes: ");
+    printf("\n\t Enter the burst time of the process: ");
     for (i = 0; i < n; i++)
     {
         scanf("%d", &bt[i]);
     }
-
-    printf("Enter the priority of processes: ");
+    printf("\n\tEnter the priority of the processes: ");
     for (i = 0; i < n; i++)
     {
         scanf("%d", &pr[i]);
     }
 
-    for (i = 0; i < n; i++)
+    for (int i = 0; i < n; i++)
     {
-        pos = i;
+        int tem = i;
         for (j = i + 1; j < n; j++)
         {
-            if (pr[j] < pr[pos])
+            if (pr[j] < pr[tem])
             {
-                pos = j;
+                tem = j;
             }
         }
-        t = pr[i];
-        pr[i] = pr[pos];
-        pr[pos] = t;
 
-        t = bt[i];
-        bt[i] = bt[pos];
-        bt[pos] = t;
+        // Priority array sorting
+        int var_at_i = pr[i];
+        pr[i] = pr[tem];
+        pr[tem] = var_at_i;
+
+        // Burst time array sorting according to priority
+        var_at_i = bt[i];
+        bt[i] = bt[tem];
+        bt[tem] = var_at_i;
     }
-    wt[0] = 0;
-    printf("Process\t Burst time\t Waiting time\t Turn around time\n");
-    for (int i = 0; i < n; i++)
+
+    printf("Process\t Burst Time\t Waiting time\t Turn around time\n");
+    for (i = 0; i < n; i++)
     {
         wt[i] = 0;
         tat[i] = 0;
@@ -50,13 +51,30 @@ int main()
             wt[i] = wt[i] + bt[j];
         }
         tat[i] = wt[i] + bt[i];
-        awt = awt + wt[i];
-        atat = atat + tat[i];
-        printf("%d\t %d\t\t %d\t\t %d\t\t %d\n", i + 1, bt[i], pr[i], wt[i], tat[i]);
+        awt += wt[i];
+        att += tat[i];
+        printf("%d\t %d\t\t %d\t\t %d\n", i + 1, bt[i], wt[i], tat[i]);
     }
     awt = (float)awt / n;
-    atat = (float)atat / n;
-    printf("\nAverage waiting time = %f", awt);
-    printf("\nAverage turn around time = %f", atat);
-    return 0;
+    att = (float)att / n;
+    printf("\n\t Average waiting time is: %f", awt);
+    printf("\n\t Average turn around time is: %f", att);
+    getch();
 }
+
+Output: -
+    
+         Enter the number of process: 5
+
+         Enter the burst time of the process: 3 4 2 1 3
+
+        Enter the priority of the processes: 1 3 2 1 4
+Process  Burst Time      Waiting time    Turn around time
+1        3               0               3
+2        1               3               4
+3        2               4               6
+4        4               6               10
+5        3               10              13
+
+         Average waiting time is: 4.600000
+         Average turn around time is: 7.200000
