@@ -27,21 +27,22 @@ int main (){
 int main()
 {
 int a;
-printf("Hello\n");
-printf("I am EXEC.c called by execvp()");
-printf("In fork command");
+printf("\n\tHello");
+printf("\n\tI am EXEC.c called by execvp()");
+printf("\n\tIn fork command");
 a=fork();
 if (a>0)
 {
-printf("Parent pid is %d\n", getpid());
-printf("{arent ppid is %d\n", getppid());
+printf("\n\tParent pid is: %d", getpid());
+printf("\n\tParent ppid is: %d", getppid());
 }
 if (a==0)
 {
-printf("Child pid is %d\n", getpid());
-printf("Child ppid is %d\n", getppid());
+printf("\n\tChild pid is: %d", getpid());
+printf("\n\tChild ppid is: %d", getppid());
 }
-printf("Work Done\n");
+printf("\n\tWork Done");
 sleep(4);
-printf("Work Accomplished");
+printf("\n\tWork Accomplished");
 return 0;
+}
