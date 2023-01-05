@@ -1,19 +1,14 @@
 #include <stdio.h>
+#include <conio.h>
 #include <stdlib.h>
-#define max 30
-int main()
+void main()
 {
-    int i, j, n, t, p[max], bt[max], wt[max], tat[max];
-    float awt = 0.0f, atat = 0.0f;
     system("cls");
-    printf("Enter the number of process: ");
+    int i, j, n, wt[20], bt[20], tat[20];
+    float awt = 0.0, att = 0.0;
+    printf("\n\t Enter the number of process: ");
     scanf("%d", &n);
-    printf("Enter the process number: ");
-    for (i = 0; i < n; i++)
-    {
-        scanf("%d", &p[i]);
-    }
-    printf("\nEnter the burst time of the processes: ");
+    printf("\n\t Enter the burst time of the process: ");
     for (i = 0; i < n; i++)
     {
         scanf("%d", &bt[i]);
@@ -21,22 +16,20 @@ int main()
 
     for (i = 0; i < n - 1; i++)
     {
-        for (j = 0; j < n - i - 1; j++)
+        int tem = i;
+        for (j = i + 1; j < n; j++)
         {
-            if (bt[j] > bt[j + 1])
+            if (bt[j] < bt[tem])
             {
-                int tem = bt[j];
-                bt[j] = bt[j + 1];
-                bt[j + 1] = tem;
-
-                t = p[j];
-                p[j] = p[j + 1];
-                p[j + 1] = t;
+                tem = j;
             }
         }
+        int temp = bt[i];
+        bt[i] = bt[tem];
+        bt[tem] = temp;
     }
-    printf("Process\t Burst time\t Waiting time\t Turn aroundtime\n");
-    for (int i = 0; i < n; i++)
+    printf("Process\t Burst Time\t Waiting time\t Turn around time\n");
+    for (i = 0; i < n; i++)
     {
         wt[i] = 0;
         tat[i] = 0;
@@ -45,13 +38,28 @@ int main()
             wt[i] = wt[i] + bt[j];
         }
         tat[i] = wt[i] + bt[i];
-        awt = awt + wt[i];
-        atat = atat + tat[i];
-        printf("%d\t %d\t\t %d\t\t %d\n", p[i], bt[i], wt[i], tat[i]);
+        awt += wt[i];
+        att += tat[i];
+        printf("%d\t %d\t\t %d\t\t %d\n", i + 1, bt[i], wt[i], tat[i]);
     }
     awt = (float)awt / n;
-    atat = (float)atat / n;
-    printf("\nAverage waiting time = %f", awt);
-    printf("\nAverage turn around time = %f", atat);
-    return 0;
+    att = (float)att / n;
+    printf("\n\t Average waiting time is: %f", awt);
+    printf("\n\t Average turn around time is: %f", att);
+    getch();
 }
+
+
+
+Output: -
+       Enter the number of process: 4
+
+         Enter the burst time of the process: 6 8 7 3
+Process  Burst Time      Waiting time    Turn around time
+1        3               0               3
+2        6               3               9
+3        7               9               16
+4        8               16              24
+
+         Average waiting time is: 7.000000
+         Average turn around time is: 13.000000
