@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <unistd.h>
+void main()
+{
+    int fdc, fdw, fdo, n, i;
+    char br[50], bw[50], fdr[50];
+    fdc = creat("myfile.txt", 0777);
+    if (fdc < 0)
+    {
+        printf("\n\tThe file has not been created");
+    }
+    else
+    {
+        printf("\n\tThe file has been created");
+    }
+    printf("\n\tFor writing the file");
+    printf("\n\tEnter the size of the string: ");
+    scanf("%d", &n);
+    printf("\n\tEnter the content:- ");
+    for (int i = 0; i < n; i++)
+        scanf("%c", &bw[i]);
+    write(fdc, bw, sizeof(bw));
+    fdo = open("myfile.txt", O_RDWR, 0111);
+    if (fdo < 0)
+    {
+        printf("\n\tThe file has not been opened");
+    }
+    else
+    {
+        printf("\n\tThe file has been successfully opened");
+    }
+    read(fdo, br, sizeof(bw));
+    printf("\n\tYour content is: ");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%c", br[i]);
+    }
+    int close(int fdc);
+    close(fdo);
+}
+
+Output: -
+
+The file has been created
+        For writing the file
+        Enter the size of the string: 7
+
+        Enter the content:- Parshva
+
+        The file has been successfully opened
+        Your content is: 
+          Parshv
