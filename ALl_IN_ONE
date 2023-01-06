@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+void main()
+{
+    system("cls");
+    int i, j, n;
+    int bt[20], tat[20], wt[20];
+    float atat = 0.0, awt = 0.0;
+    printf("\n\tEnter the number of processes: ");
+    scanf("%d", &n);
+    printf("\n\tEnter the burst time of the processes: ");
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &bt[i]);
+    }
+
+//Selection sort
+    // for(i=0;i<n-1;i++){
+    //     int tem=i;
+    //     for(j=i+1;j<n;j++){
+    //         if(bt[j]<bt[tem]){
+    //             tem=j;
+    //         }
+    //     }
+    //     int tem_var = bt[tem];
+    //     bt[tem]=bt[i];
+    //     bt[i]=tem_var;
+    // }
+
+
+// Priority scheduling
+    printf("\n\tEnter the priority of the process: ");
+    int pr[20];
+    for(i=0;i<n;i++){
+        scanf("%d",&pr[i]);
+    }
+    for ( i = 0; i < n; i++)
+    {
+        int tem =i;
+        for(j=i+1;j<n;j++){
+            if(pr[j]<pr[tem]){
+                tem=j;
+            }
+        }
+
+        int tem_var=pr[i];
+        pr[i]=pr[tem];
+        pr[tem]=tem_var;
+
+
+        tem_var=bt[i];
+        bt[i]=bt[tem];
+        bt[tem]=tem_var;
+    }
+    
+    printf("Process\t Burst time\t Waiting time\t turn around time\n");
+    for (i = 0; i < n; i++)
+    {
+        wt[i] = 0;
+        tat[i] = 0;
+        for (j = 0; j < i; j++)
+        {
+            wt[i] = wt[i] + bt[j];
+        }
+        tat[i] = wt[i] + bt[i];
+        awt += wt[i];
+        atat += tat[i];
+         printf("%d\t %d\t\t %d\t\t %d\n", i + 1, bt[i], wt[i], tat[i]);
+    }
+     awt = (float)awt / n;
+    atat = (float)atat / n;
+printf("\n\tAverage waiting time is: %f",awt);
+printf("\n\tAverage turn around time is: %f",atat);
+    getch();
+}
